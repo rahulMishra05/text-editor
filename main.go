@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -38,8 +39,18 @@ func main() {
 
 
 	saveBtn := widget.NewButton("Save text file", func() {
+		saveFileDialog := dialog.NewFileSave(
+			func(uc fyne.URIWriteCloser, _ error) {
+				textData := []byte(input.Text)
 
+				uc.Write(textData)
+			},w)
+
+		saveFileDialog.SetFileName("New File"+ strconv.Itoa(count-1)+".txt")
+
+		saveFileDialog.Show()
 	})
+
 
 
 	w.SetContent(
